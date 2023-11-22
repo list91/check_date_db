@@ -17,24 +17,38 @@ namespace check_date
             this.date = date;
             this.path = path;
         }
-        public static string CheckDate(string inputDate)
+        public void DelFolder() 
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+                Console.WriteLine("Папка " + path + " успешно удалена.");
+            }
+            else
+            {
+                // сделать удаление инфы из файла о БД которой уже нету
+                Console.WriteLine("Папка " + path + " не существует.");
+            }
+        }
+        public string CheckDate()
         {
             DateTime currentDate = DateTime.Now.Date;
-            DateTime date;
+            DateTime dateNow;
 
-            if (DateTime.TryParseExact(inputDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            if (DateTime.TryParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateNow))
             {
-                if (date < currentDate)
+      // если паст или реал то удаляем
+                if (dateNow < currentDate)
                 {
-                    return "дата прошла";
+                    return "past";
                 }
-                else if (date > currentDate)
+                else if (dateNow > currentDate)
                 {
-                    return "дата не прошла";
+                    return "future";
                 }
                 else
                 {
-                    return "сегодняшняя дата";
+                    return "real";
                 }
             }
             else

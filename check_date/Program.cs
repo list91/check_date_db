@@ -1,25 +1,23 @@
 ﻿using System.IO;
-// See https://aka.ms/new-console-template for more information
 using check_date;
 
 var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 string basesFilePath = userFolder + $"\\AppData\\Roaming\\1C\\1CEStart\\ibases.v8i";
 List<BasesInfo> bases = BasesInfo.getBasesInfoList(basesFilePath);
 string logFilePath = Directory.GetCurrentDirectory() + "\\log.txt";
-Console.WriteLine("basesFilePath - " + basesFilePath);
-Console.WriteLine("bases - " + bases.Count);
-
-string pathDel = userFolder + $"\\TEST_DEL";
-
-if (Directory.Exists(pathDel))
-{
-    Directory.Delete(pathDel, true);
-    Console.WriteLine("Папка "+ pathDel + " успешно удалена.");
+foreach (BasesInfo baseInfo in bases) {
+    string result = baseInfo.CheckDate();
+    if (result == "real" || result == "past") 
+    {
+        baseInfo.DelFolder();
+    }
 }
-else
-{
-    Console.WriteLine("Папка "+ pathDel + " не существует.");
-}
+    //Console.WriteLine("basesFilePath - " + basesFilePath);
+    //Console.WriteLine("bases - " + bases.Count);
+
+//string pathDel = userFolder + $"\\TEST_DEL";
+
+
 
 //foreach (BasesInfo baseItem in bases)
 //{
